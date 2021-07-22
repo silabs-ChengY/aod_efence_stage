@@ -35,12 +35,12 @@
 ***
 
 # 1. Introduction
-Bluetooth Angle of Arrival (AoA) and Angle of Departure (AoD) are new technologies that establish a standardized framework for indoor positioning. With these technologies, the fundamental problem of positioning comes down to solving the arrival and departure angles of radio frequency signals. 
+Bluetooth Angle of Arrival (AoA) and Angle of Departure (AoD) are new technologies that establish a standardized framework for indoor positioning. With these technologies, the fundamental problem of positioning comes down to solving the arrival and departure angles of radio frequency signals.   
 SiliconLabs has the [UG103.18: Bluetooth® Direction Finding
 Fundamentals](https://www.silabs.com/documents/public/user-guides/ug103-18-bluetooth-direction-finding-fundamentals.pdf) to explain the basic of the AoA and AoD technology, and 
-has [AN1296: Application Development with Silicon Labs’ RTL Library] and [AN1297: Custom Direction-Finding Solutions using the Silicon Labs Bluetooth Stack] to explain how develop the direction finding (DF) applications using the Silicon Labs Bluetooth LE stack and the Real Time Locating Library (RTL lib). 
-Please note that all of these three documentations are the fundament to understand the basic of Bluetooth Direction Finding as well as the Silicon Labs solution for it. It's supposed that you've read them. 
-This project will show you how to build a AoD application with Silicon Labs Bluetooth LE stack and the RTL Lib. This documentation walks through the steps to help anyone get stared with AoD solution.
+has [AN1296: Application Development with Silicon Labs’ RTL Library] and [AN1297: Custom Direction-Finding Solutions using the Silicon Labs Bluetooth Stack] to explain how develop the direction finding (DF) applications using the Silicon Labs Bluetooth LE stack and the Real Time Locating Library (RTL lib).   
+Please note that all of these three documentations are the fundament to understand the basic of Bluetooth Direction Finding as well as the Silicon Labs solution for it. It's supposed that you've read them.   
+This project will show you how to build a AoD application with Silicon Labs Bluetooth LE stack and the RTL Lib. This documentation walks through the steps to help anyone get stared with AoD solution.   
 
 # 2. Prerequisites
 Running the demo requires the following devices:   
@@ -58,23 +58,23 @@ Running the demo requires the following devices:
 * **aod_locator** is the host sample app running on the host demonstrates the CTE Receiver feature and the usage of the angle estimation feature of the RTL library.   
 
 ## 3.2. Demo Setup
-There are two kind of system structure for the multi-transmitter AoD demo. Customer can choose anyone of them depends on their own system design. 
-In the first case, the AoD tag asset will work in NCP mode for I/Q sample, the host application **aod_locator** runs on the host MCU or PC will receive the I/Q sample result from the tag via BGAPI interface, and calculate the angle and position according to the I/Q data.
-In the second case, the AoD tag asset work in SoC mode for I/Q sample, after finishing the sampling it will transmit the I/Q sample data to the gateway via Bluetooth connection. After receiving the I/Q sample from each AoD tag, the gateway runs **aod_gateway** application will calculate the angle and position.
+There are two kind of system structure for the multi-transmitter AoD demo. Customer can choose anyone of them depends on their own system design.   
+In the first case, the AoD tag asset will work in NCP mode for I/Q sample, the host application **aod_locator** runs on the host MCU or PC will receive the I/Q sample result from the tag via BGAPI interface, and calculate the angle and position according to the I/Q data.   
+In the second case, the AoD tag asset work in SoC mode for I/Q sample, after finishing the sampling it will transmit the I/Q sample data to the gateway via Bluetooth connection. After receiving the I/Q sample from each AoD tag, the gateway runs **aod_gateway** application will calculate the angle and position.   
 
-For getting start with these two kind of multi-transmitter AoD demos, please follow the steps below.   
+For getting start with these two kind of multi-transmitter AoD demos, please follow the steps below.    
 
 ### 3.2.1. NCP mode AoD asset
-* Please flash a bootloader to each of your boards   
-* Please build and flash the **soc_aod_beacon.sls** project to your antenna array boards. You can also find the prebuilt image now for your convenience.   
-* Please build and flash the **ncp_aod_asset.sls** project to your Thunderboard. You can also find the prebuilt image now for your convenience.   
+* Please flash a bootloader to each of your boards     
+* Please build and flash the **soc_aod_beacon.sls** project to your antenna array boards. You can also find the prebuilt image now for your convenience.     
+* Please build and flash the **ncp_aod_asset.sls** project to your Thunderboard. You can also find the prebuilt image now for your convenience.    
 * Please copy the attached **aod_locator** project into the following folder:   
     C:\SiliconLabs\SimplicityStudio\v5\developer\sdks\gecko_sdk_suite\v3.1\app\bluetooth\example_host   
 * Start MSYS2 MinGW 64-bit, browse to the **aod_locator** folder, and build the project simply by running make (there will be some warnings, neglect them)   
 * Navigate to the config folder, and change the multilocator_config.json file according to your setup (change the addresses, position and orientation of your antenna array boards)   
 * Navigate to the exe folder, and start the project like this (change the COM port to the one used by the Thunderboard BG22):   
-    ./aod_locator.exe -u COM49 -c ../config/multilocator_config.json  
-Below is the system block diagram for the case of AoD tag asset works in NCP mode.
+    ./aod_locator.exe -u COM49 -c ../config/multilocator_config.json   
+Below is the system block diagram for the case of AoD tag asset works in NCP mode.   
 <div align="center">
   <img src="image/aod_ncp_mode_block_diagram.png">  
 </div>  
@@ -86,13 +86,13 @@ Below is the system block diagram for the case of AoD tag asset works in NCP mod
 ### 3.2.2. SoC mode AoD asset
 * Build the **soc_aod_beacon** project and flash the image to the antenna array boards. Please make sure that a bootloader is also flashed before.   
 * Build the **soc_aod_asset** project and flash the image to the Thunderboard BG22.   
-* Flash **NCP - Empty Demo** to a BG22 radio board which acts as the gateway combine with the Raspberry Pi or your PC runs the **aod_gateway** host application.  
+* Flash **NCP - Empty Demo** to a BG22 radio board which acts as the gateway combine with the Raspberry Pi or your PC runs the **aod_gateway** host application.   
 * Copy the **aod_gateway** project to the folder ```C:\SiliconLabs\SimplicityStudio\v5\developer\sdks\gecko_sdk_suite\v3.1\app\bluetooth\example_host```   
 * Open MSYS2 MinGW 64 bit, browse to the **aod_gateway** folder and run 'make'   
 * Make sure mqtt broker is running   
 * start the **aod_gateway** app like this:   
     ./exe/aod_gateway.exe -c xxx.jason -u COM8   
-    where the COM port should be the COM port of the BG22 board programmed with NCP empty demo image.  
+    where the COM port should be the COM port of the BG22 board programmed with NCP empty demo image.   
 * start mqtt explorer, and check if you can see the angles calculated for each locator   
 <div align="center">
   <img src="image/mqtt_explorer.png">  
@@ -100,7 +100,7 @@ Below is the system block diagram for the case of AoD tag asset works in NCP mod
 * start the aoa_multilocator and aoa_multilocator_gui apps as described in AN1296   
     Note: the multilocator_configuration should be exactly the same for AoD as it is for AoA   
 
-Below is the system block diagram for the case of AoD tag asset works in SoC mode.
+Below is the system block diagram for the case of AoD tag asset works in SoC mode.   
 
 <div align="center">
   <img src="image/aod_soc_mode_block_diagram.png">  
@@ -120,17 +120,17 @@ Below is the system block diagram for the case of AoD tag asset works in SoC mod
 </br>
 
 # 4. Antenna Array Accuracy
-Direction finding accuracy depends strongly on the amount of different phase information in the receiver. The number of channels/antennas affects the overall angle accuracy. However, increasing the number of antennas requires more and more memory for the calculations and increases PCB size as well.
-The 4x4 array was chosen as the reference based on the most optimal system performance for smallest array size.
+Direction finding accuracy depends strongly on the amount of different phase information in the receiver. The number of channels/antennas affects the overall angle accuracy. However, increasing the number of antennas requires more and more memory for the calculations and increases PCB size as well.   
+The 4x4 array was chosen as the reference based on the most optimal system performance for smallest array size.   
 We has performed real environment testing on the 4x4 array with the following results. The measurements were performed using Gecko SDK 3.2 and RTL library API: SL_RTL_AOX_MODE_REAL_TIME_BASIC.
 
-The following devices were used for all antenna array accuracy measurements in this section:
-• Locator: BRD4185A Rev A01
-• Tag: BRD4184A Rev A02
+The following devices were used for all antenna array accuracy measurements in this section:   
+• Locator: BRD4185A Rev A01   
+• Tag: BRD4184A Rev A02   
 
 ## 4.1. Environment 1 (3 tag, 4 locators, static measurement)
-* Location: Office environment, open space   
-* Locator height from floor: 0.0 m   
+* Location: Office environment, open space    
+* Locator height from floor: 0.0 m    
 * Tag height from floor: 0.75 m   
 * Testing range: 3.8x3.9m2   
 * Real position of the locators and tags
@@ -138,7 +138,7 @@ The following devices were used for all antenna array accuracy measurements in t
   <img src="image/3.8x3.9_4locators.png">  
 </div>  
 
-There are total 4 locators and 3 tags in the 3.8x3.9 area, below are the measured position and angle accuracy for the tags.
+There are total 4 locators and 3 tags in the 3.8x3.9 area, below are the measured position and angle accuracy for the tags.   
 
 ### 4.1.1. Real position of the locators and tags.
 |Locator ID | X | Y | Z |
@@ -175,7 +175,7 @@ Below is the estimated position of these three tags. We collected all of the pos
 </div> 
 
 ## 4.2. Environment 2 (9 tag, 4 locators, static measurement)
-* Location: Office environment, open space   
+* Location: Office environment, open space    
 * Locator height from floor: 0.0 m   
 * Tag height from floor: 0.75 m   
 * Testing range: 3.8x3.9m2   
@@ -205,7 +205,7 @@ Below is the estimated position of these three tags. We collected all of the pos
 |ble-pd-60A423C96746 | 2.00 | 0.80 | 0.75 |
 
 ### 4.2.2. Estimated position by RTL lib 
-Below is the estimated position shown in GUI, and we can monitor the value with the MQTT Explorer.
+Below is the estimated position shown in GUI, and we can monitor the value with the MQTT Explorer.   
 <div align="center">
   <img src="image/3.8x3.9_9tags.png">  
 </div>  
@@ -214,7 +214,7 @@ Below is the estimated position shown in GUI, and we can monitor the value with 
   <img src="image/3.8x3.9_9tags_position.png">  
 </div>  
 
-Also we collected all of the position and angle data for each tag, the curve below reflects the X/Y/Z axis value for each tag in 5mins.
+Also we collected all of the position and angle data for each tag, the curve below reflects the X/Y/Z axis value for each tag in 5mins.   
 
 **ble-pd-60A423C96B13**
 <div align="center">
@@ -263,11 +263,11 @@ Also we collected all of the position and angle data for each tag, the curve bel
 
 
 ## 4.3. Environment 3 (3 tag, 4 locators, static measurement)
-* Location: Office environment, open space   
+* Location: Office environment, open space    
 * Locator height from floor: 0.0 m   
 * Tag height from floor: 0.75 m   
 * Testing range: 2x9m2   
-* Real position of the locators and tags
+* Real position of the locators and tags   
 
 ### 4.3.1. Real position of the locators and tags.
 |Locator ID | X | Y | Z |
@@ -304,13 +304,13 @@ Below is the estimated position of these three tags. We collected all of the pos
 </div> 
 
 # 5. Development
-The section below guide you how to implement the AoD projects with SiliconLabs Bluetooth SDK as well as the example projects come with the SDK.
+The section below guide you how to implement the AoD projects with SiliconLabs Bluetooth SDK as well as the example projects come with the SDK.   
 ## 5.1. Create the AoD Beacon project base on soc-empty example
-Create a soc-empty project, and then install the components below. 
-* RAIL Utility, AoX (Utility to aid with Angle of Arrival/Departure (AoX) Configuration)
-* AoA Transmitter (Bluetooth AoA CTE transmission feature)
+Create a soc-empty project, and then install the components below.    
+* RAIL Utility, AoX (Utility to aid with Angle of Arrival/Departure (AoX) Configuration)   
+* AoA Transmitter (Bluetooth AoA CTE transmission feature)   
 
-And then set advertising data and start extended advertising, the CTE will be appended on the extended advertising package. Below is the code snippet.
+And then set advertising data and start extended advertising, the CTE will be appended on the extended advertising package. Below is the code snippet.   
 
 ```c
 uint8_t data[3] = {0x02, 0x01, 0x06};
@@ -342,15 +342,15 @@ The CTE length and slot size is defined as below.
 ```
 
 ## 5.2. Create NCP mode AoD asset base on ncp example
-Create a ncp-empty project, and install the components below.
-* RAIL Utility, AoX (Utility to aid with Angle of Arrival/Departure (AoX) Configuration)
-* AoA Receiver (Bluetooth AoA CTE receiving feature)
+Create a ncp-empty project, and install the components below.   
+* RAIL Utility, AoX (Utility to aid with Angle of Arrival/Departure (AoX) Configuration)   
+* AoA Receiver (Bluetooth AoA CTE receiving feature)   
 
-For the RAIL Utility, AoX component, please configure the Number of AoX Antenna Pins as 4, and configure the SL_RAIL_UTIL_AOX_ANTENNA_PIN0-SL_RAIL_UTIL_AOX_ANTENNA_PIN3 as PC04-PC07 respectively.
+For the RAIL Utility, AoX component, please configure the Number of AoX Antenna Pins as 4, and configure the SL_RAIL_UTIL_AOX_ANTENNA_PIN0-SL_RAIL_UTIL_AOX_ANTENNA_PIN3 as PC04-PC07 respectively.   
 
 ## 5.3. Build the AoA_Locator project
-With the v3.2.0 Bluetooth SDK release, there is **AoA Analyzer** tool which is a Java based application, built into Simplicity Studio 5, that showcases the angle estimation skills of the RTL library in a graphical user interface.
-For how to get started with AoA Analyzer Tool, please see the section "2.1.3 Start the AoA Analyzer Tool", and similar as the previous release, the is a c based host sample app "aoa_locator" which can run on the host demonstrates the CTE Receiver feature and the use of the angle estimation feature of the RTL library. It uses the same application logic as the AoA Analyzer used in the demo setup.   
+With the v3.2.0 Bluetooth SDK release, there is **AoA Analyzer** tool which is a Java based application, built into Simplicity Studio 5, that showcases the angle estimation skills of the RTL library in a graphical user interface.   
+For how to get started with AoA Analyzer Tool, please see the section "2.1.3 Start the AoA Analyzer Tool", and similar as the previous release, the is a c based host sample app "aoa_locator" which can run on the host demonstrates the CTE Receiver feature and the use of the angle estimation feature of the RTL library. It uses the same application logic as the AoA Analyzer used in the demo setup.    
 For how to build the host sample "AoA Locator", please see the section "3.2.1 Building a Single AoA Locator Host Sample Application" of [AN12960](https://www.silabs.com/documents/public/application-notes/an1296-application-development-with-rtl-library.pdf) for step by step instructions.   
 
 Please note that the single AoA locator can be detached from the RTL library and thus does not have to calculate angle values. Instead, it can publish IQ reports directly to the MQTT broker. This can be done using the ANGLE make variable.   
